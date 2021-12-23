@@ -28,6 +28,7 @@ jobs:
 
       - uses: actions/cache@v2
         with:
+          path: Whist-Desktop/Librarys
           key: Library-Whist-Desktop-${{ matrix.os }}
           restore-keys: |
             Library-MyProjectName-
