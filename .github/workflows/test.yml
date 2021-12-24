@@ -28,10 +28,10 @@ jobs:
 
       - uses: actions/cache@v2
         with:
-          path: Whist-Desktop/Librarys
+          path: Whist-Desktop/Library
           key: Library-Whist-Desktop-${{ matrix.os }}
           restore-keys: |
-            Library-MyProjectName-
+            Library-Whist-Desktop-
             Library-
       - name: Unity - Test
         uses: game-ci/unity-test-runner@v2
