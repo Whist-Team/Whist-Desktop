@@ -1,19 +1,24 @@
-using System.Collections;
+using System.Collections.Generic;
+using Connections;
 using UnityEngine;
-using UnityEngine.Networking;
+using UnityEngine.UI;
 
-public class Login : MonoBehaviour
+namespace Login
 {
-    private void Start()
+    public class Login : MonoBehaviour
     {
-        StartCoroutine(SendData());
-    }
+        public InputField username;
+        public InputField password;
 
-    private IEnumerator SendData()
-    {
-        UnityWebRequest request = UnityWebRequest.Post("http://localhost:9000", "test");
-        yield return request.SendWebRequest();
-
-        Debug.Log(request.result != UnityWebRequest.Result.Success ? request.error : "Upload complete!");
+        public void SendRequest()
+        {
+            string url = "http://localhost:9001/user/auth/";
+            Dictionary<string, string> fields = new Dictionary<string, string>
+            {
+                { "username", username.text },
+                { "password", password.text }
+            };
+            StartCoroutine(ServerConnection.SendForm(url, FormDataFactory.Create(fields)));
+        }
     }
 }
