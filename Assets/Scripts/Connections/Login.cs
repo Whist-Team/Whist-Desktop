@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Connections;
+using Session;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace Login
@@ -18,7 +20,13 @@ namespace Login
                 { "username", username.text },
                 { "password", password.text }
             };
-            StartCoroutine(ServerConnection.SendForm(url, FormDataFactory.Create(fields)));
+            StartCoroutine(ServerConnection.SendForm(url, FormDataFactory.Create(fields), OnLogin));
+        }
+
+        private void OnLogin(DownloadHandler result)
+        {
+            AuthToken token = AuthToken.FromString(result.text);
+            SessionManager.token = token;
         }
     }
 }
