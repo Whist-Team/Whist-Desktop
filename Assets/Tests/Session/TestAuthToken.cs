@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 using Session;
 
@@ -14,6 +15,22 @@ namespace Tests.Session
             AuthToken token = AuthToken.FromString(result);
             Assert.AreEqual(expectedToken, token);
         }
+        
+        [Test]
+        public void TestFromStringMissingType()
+        {
+            string result = "{\"token\":\"abcd\"}";
+
+            Assert.Throws<KeyNotFoundException>(() => AuthToken.FromString(result));
+        }
+        
+        [Test]
+        public void TestFromStringMissingToken()
+        {
+            string result = "{\"token_type\":\"Bearer\"}";
+
+            Assert.Throws<KeyNotFoundException>(() => AuthToken.FromString(result));
+        }
 
         [Test]
         public void TestEqual()
@@ -22,7 +39,7 @@ namespace Tests.Session
             AuthToken otherToken = new AuthToken("abcd", "Bearer");
             Assert.AreEqual(authToken, otherToken);
         }
-        
+
         [Test]
         public void TestNotTokenEqual()
         {
@@ -30,7 +47,7 @@ namespace Tests.Session
             AuthToken otherToken = new AuthToken("abc", "Bearer");
             Assert.AreNotEqual(authToken, otherToken);
         }
-        
+
         [Test]
         public void TestNotTypeEqual()
         {
