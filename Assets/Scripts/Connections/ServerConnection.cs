@@ -18,13 +18,13 @@ namespace Connections
         /// <param name="callback">What should be done on a successful request.</param>
         /// <typeparam name="callback">Action with parameter: UnityWebRequest.Result</typeparam>
         /// <returns>Nothing. Further action shall be taken in the callback.</returns>
-        public static IEnumerator SendForm(string url, WWWForm form, Action<UnityWebRequest.Result> callback)
+        public static IEnumerator SendForm(string url, WWWForm form, Action<DownloadHandler> callback)
         {
             UnityWebRequest request = UnityWebRequest.Post(url, form);
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
-                callback?.Invoke(request.result);
+                callback?.Invoke(request.downloadHandler);
             }
             else
             {
