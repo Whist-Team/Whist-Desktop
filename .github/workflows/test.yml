@@ -43,8 +43,8 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
       - name: Upload XML report to Codecov
-          uses: codecov/codecov-action@v2
-          with:
-            flags: automated
-            token: ${{ secrets.CODECOV_TOKEN }}
-            files: coverage-results/**/*.xml
+        uses: codecov/codecov-action@v2
+        with:
+          flags: automated
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage-results/**/*.xml
