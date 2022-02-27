@@ -41,3 +41,12 @@ jobs:
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          testMode: playmode
+          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
+            - name: Upload XML report to Codecov
+              uses: codecov/codecov-action@v2
+              with:
+                fail_ci_if_error: true
+                token: ${{ secrets.CODECOV_TOKEN }}
+                files: coverage-results/**/*.xml 
+          
