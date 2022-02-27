@@ -44,7 +44,7 @@ jobs:
           restore-keys: |
             pip
       - name: Install Whist-Server
-        run: pip install whist-server
+        run: pip install whist-server setuptools wheel
       - name: Start Whist-Server
         run: python -m server localhost 9001
       - name: Unity - Test
