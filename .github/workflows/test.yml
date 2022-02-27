@@ -52,8 +52,12 @@ jobs:
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
       - name: Start Whist-Server
-        run: whist-server
-        env: 
+        run: |
+          whist-server &
+          while ! nc -z localhost 9001; do   
+            sleep 0.1 # wait for 1/10 of the second before check again
+          done
+        env:
           HOST_ADDR: localhost
           HOST_PORT: 9001
       - name: Unity - Test
