@@ -46,7 +46,7 @@ jobs:
       - name: Install Whist-Server
         run: pip install whist-server
       - name: Start Whist-Server
-        run: python whist/server localhost 9001
+        run: python server localhost 9001
       - name: Unity - Test
         uses: game-ci/unity-test-runner@v2
         env:
