@@ -46,7 +46,10 @@ jobs:
       - name: Install Whist-Server
         run: pip install whist-server setuptools wheel
       - name: Start Whist-Server
-        run: python -m whist-server localhost 9001
+        run: whist-server
+        env: 
+          HOST_ADDR: localhost
+          HOST_PORT: 9001
       - name: Unity - Test
         uses: game-ci/unity-test-runner@v2
         env:
