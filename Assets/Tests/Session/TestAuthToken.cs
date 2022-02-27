@@ -55,5 +55,12 @@ namespace Tests.Session
             AuthToken otherToken = new AuthToken("abcd", "Bear");
             Assert.AreNotEqual(authToken, otherToken);
         }
+        
+        [Test]
+        public void TestNullEqual()
+        {
+            AuthToken authToken = new AuthToken("abcd", "Bearer");
+            Assert.AreNotEqual(authToken, null);
+        }
     }
 }
