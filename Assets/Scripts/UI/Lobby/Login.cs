@@ -23,7 +23,7 @@ namespace Login
             StartCoroutine(ServerConnection.SendForm(url, FormDataFactory.Create(fields), OnLogin));
         }
 
-        private void OnLogin(DownloadHandler result)
+        private static void OnLogin(DownloadHandler result)
         {
             AuthToken token = AuthToken.FromString(result.text);
             SessionManager.token = token;
