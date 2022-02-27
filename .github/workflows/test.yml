@@ -19,6 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
+        python-version: [ '3.10' ]
+        mongodb-version: [ 4.4 ]
     runs-on: ${{ matrix.os }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -33,10 +35,10 @@ jobs:
           restore-keys: |
             Library-Whist-Desktop-
             Library-
-      - name: Set up Python 3.10
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
       - uses: actions/cache@v2
         with:
           path: ~/.cache/pip
@@ -45,6 +47,10 @@ jobs:
             pip
       - name: Install Whist-Server
         run: pip install whist-server setuptools wheel
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
       - name: Start Whist-Server
         run: whist-server
         env: 
