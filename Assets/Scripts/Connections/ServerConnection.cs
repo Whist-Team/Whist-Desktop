@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -21,6 +22,24 @@ namespace Connections
         public static IEnumerator SendForm(string url, WWWForm form, Action<DownloadHandler> callback)
         {
             UnityWebRequest request = UnityWebRequest.Post(url, form);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                callback?.Invoke(request.downloadHandler);
+            }
+            else
+            {
+                Debug.LogError($"Request to {url} was unsuccessful, because of: {request.error}");
+            }
+        }
+
+        public static IEnumerator SendJsonString(string json, string url, Action<DownloadHandler> callback)
+        {
+            UnityWebRequest request = new UnityWebRequest(url, "POST");
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+            request.uploadHandler = (UploadHandler) new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
