@@ -33,6 +33,14 @@ jobs:
           restore-keys: |
             Library-Whist-Desktop-
             Library-
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - name: Install Whist-Server
+        run: pip install whist-server
+      - name: Start Whist-Server
+        run: python Whist-Server/whist/server/__main__.py localhost 9001
       - name: Unity - Test
         uses: game-ci/unity-test-runner@v2
         env:
