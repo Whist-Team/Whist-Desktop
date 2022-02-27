@@ -9,5 +9,10 @@ namespace Session
         /// Authentication token for the current player.
         /// </summary>
         internal static AuthToken token;
+
+        /// <summary>
+        /// The base url of the Whist Server.
+        /// </summary>
+        internal const string serverUrl = "http://localhost:9001/";
     }
 }

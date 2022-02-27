@@ -14,7 +14,7 @@ namespace Login
 
         public void SendRequest()
         {
-            string url = "http://localhost:9001/user/auth/";
+            string url = $"{SessionManager.serverUrl}user/auth/";
             Dictionary<string, string> fields = new Dictionary<string, string>
             {
                 { "username", username.text },
