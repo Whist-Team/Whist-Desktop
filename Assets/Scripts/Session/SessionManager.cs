@@ -15,10 +15,20 @@ namespace Session
         /// </summary>
         internal static AuthToken token;
 
+        /// <summary>
+        /// The user id of the current player.
+        /// </summary>
+        internal static string userId;
+
 
         public static AuthToken GetToken()
         {
             return token;
+        }
+
+        public static string GetUserId()
+        {
+            return userId;
         }
     }
 }
