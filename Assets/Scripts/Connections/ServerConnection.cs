@@ -29,7 +29,7 @@ namespace Connections
             }
             else
             {
-                Debug.LogError($"Request to {url} was unsuccessful, because of: {request.error}");
+                Debug.LogWarning($"Request to {url} was unsuccessful, because of: {request.error}");
             }
         }
 
@@ -47,7 +47,7 @@ namespace Connections
             }
             else
             {
-                Debug.LogError($"Request to {url} was unsuccessful, because of: {request.error}");
+                Debug.LogWarning($"Request to {url} was unsuccessful, because of: {request.error}");
             }
         }
     }
