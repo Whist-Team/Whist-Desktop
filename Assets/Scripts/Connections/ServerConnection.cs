@@ -33,7 +33,7 @@ namespace Connections
             }
         }
 
-        public static IEnumerator SendJsonString(string json, string url, Action<DownloadHandler> callback)
+        public static IEnumerator SendJsonString(string url, string json, Action<DownloadHandler> callback)
         {
             UnityWebRequest request = new UnityWebRequest(url, "POST");
             byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
