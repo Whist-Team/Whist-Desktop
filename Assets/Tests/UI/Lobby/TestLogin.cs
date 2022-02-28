@@ -17,10 +17,6 @@ namespace Tests.UI.Lobby
         public void SetUp()
         {
             SceneManager.LoadScene("LobbyScene");
-            Dictionary<string, string> userDict = new Dictionary<string, string>
-            {
-                { "username", "marcel" }, { "password", "pwd" }
-            };
             _json = "{ \"username\":\"marcel\", \"password\":\"pwd\"}";
         }
 
@@ -29,15 +25,16 @@ namespace Tests.UI.Lobby
         public IEnumerator TestLoginSuccess()
         {
             GameObject serverConnection = GameObject.Find("ServerConnection");
-            ServerConnection.SendJsonString("http://localhost:9001/user/create", _json, null);
-            yield return new WaitForSeconds(2);
-
             Login.Login login = serverConnection.GetComponent<Login.Login>();
+            
+            login.StartCoroutine(ServerConnection.SendJsonString("http://localhost:9001/user/create", _json, null));
+            yield return new WaitForSeconds(2);
+            
             login.username.text = "marcel";
             login.password.text = "pwd";
-            yield return null;
             login.SendRequest();
             yield return new WaitForSeconds(2);
+            
             Assert.IsNotNull(SessionManager.GetToken());
         }
     }
