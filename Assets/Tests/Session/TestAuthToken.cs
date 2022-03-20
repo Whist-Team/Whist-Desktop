@@ -6,28 +6,32 @@ namespace Tests.Session
 {
     public class TestAuthToken
     {
+        private readonly AuthToken authToken = new AuthToken(tokenString, tokenType);
+        private static readonly string tokenString = "abcd";
+        private static readonly string tokenType = "Bearer";
+
         [Test]
         public void TestFromString()
         {
-            string result = "{\"token\":\"abcd\",\"token_type\":\"Bearer\"}";
-            AuthToken expectedToken = new AuthToken("abcd", "Bearer");
+            string result = $"{{\"token\":\"{tokenString}\",\"token_type\":\"{tokenType}\"}}}}";
+            AuthToken expectedToken = authToken;
 
             AuthToken token = AuthToken.FromString(result);
             Assert.AreEqual(expectedToken, token);
         }
-        
+
         [Test]
         public void TestFromStringMissingType()
         {
-            string result = "{\"token\":\"abcd\"}";
+            string result = $"{{\"token\":\"{tokenString}\"}}";
 
             Assert.Throws<KeyNotFoundException>(() => AuthToken.FromString(result));
         }
-        
+
         [Test]
         public void TestFromStringMissingToken()
         {
-            string result = "{\"token_type\":\"Bearer\"}";
+            string result = $"{{\"token_type\":\"{tokenType}\"}}";
 
             Assert.Throws<KeyNotFoundException>(() => AuthToken.FromString(result));
         }
@@ -35,31 +39,27 @@ namespace Tests.Session
         [Test]
         public void TestEqual()
         {
-            AuthToken authToken = new AuthToken("abcd", "Bearer");
-            AuthToken otherToken = new AuthToken("abcd", "Bearer");
+            AuthToken otherToken = new AuthToken(tokenString, tokenType);
             Assert.AreEqual(authToken, otherToken);
         }
 
         [Test]
         public void TestNotTokenEqual()
         {
-            AuthToken authToken = new AuthToken("abcd", "Bearer");
-            AuthToken otherToken = new AuthToken("abc", "Bearer");
+            AuthToken otherToken = new AuthToken("abc", tokenType);
             Assert.AreNotEqual(authToken, otherToken);
         }
 
         [Test]
         public void TestNotTypeEqual()
         {
-            AuthToken authToken = new AuthToken("abcd", "Bearer");
-            AuthToken otherToken = new AuthToken("abcd", "Bear");
+            AuthToken otherToken = new AuthToken(tokenString, "Bear");
             Assert.AreNotEqual(authToken, otherToken);
         }
-        
+
         [Test]
         public void TestNullEqual()
         {
-            AuthToken authToken = new AuthToken("abcd", "Bearer");
             Assert.AreNotEqual(authToken, null);
         }
     }
