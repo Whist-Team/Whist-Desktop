@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Text;
+using Session;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -33,13 +34,19 @@ namespace Connections
             }
         }
 
-        public static IEnumerator SendJsonString(string url, string json, Action<DownloadHandler> callback)
+        public static IEnumerator SendJsonString(string url, string json, Action<DownloadHandler> callback,
+            AuthToken token = null)
         {
             UnityWebRequest request = new UnityWebRequest(url, "POST");
             byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
-            request.uploadHandler = (UploadHandler) new UploadHandlerRaw(bodyRaw);
-            request.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
+            request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
+            if (token != null)
+            {
+                request.SetRequestHeader("Authorization", token.ToString());
+            }
+
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
