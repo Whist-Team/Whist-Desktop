@@ -13,11 +13,11 @@ namespace Tests.Session
         [Test]
         public void TestFromString()
         {
-            string result = $"{{\"token\":\"{tokenString}\",\"token_type\":\"{tokenType}\"}}}}";
+            string result = "{\"token\":\"abcd\",\"token_type\":\"Bearer\"}";
             AuthToken expectedToken = authToken;
 
             AuthToken token = AuthToken.FromString(result);
-            Assert.AreEqual(expectedToken, token);
+            Assert.AreEqual(authToken, token);
         }
 
         [Test]
