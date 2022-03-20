@@ -32,10 +32,16 @@ namespace Session
         /// <returns></returns>
         public static AuthToken FromString(string jsonString)
         {
-            Dictionary<string,string> tokenDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
+            Dictionary<string, string>
+                tokenDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
             return new AuthToken(tokenDict["token"], tokenDict["token_type"]);
         }
-        
+
+        public override string ToString()
+        {
+            return $"{type} {token}";
+        }
+
         public override bool Equals(object obj)
         {
             if ((obj == null) || GetType() != obj.GetType())
