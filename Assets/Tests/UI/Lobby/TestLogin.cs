@@ -27,7 +27,7 @@ namespace Tests.UI.Lobby
             Login.Login login = serverConnection.GetComponent<Login.Login>();
 
             login.StartCoroutine(ServerConnection.SendJsonString("http://localhost:9001/user/create", _json, null));
-            yield return new WaitUntil(() => SessionManager.GetUserId() != null);
+            yield return new WaitForSeconds(2);
 
             login.username.text = "marcel";
             login.password.text = "pwd";
