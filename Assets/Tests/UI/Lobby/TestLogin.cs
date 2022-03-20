@@ -25,15 +25,15 @@ namespace Tests.UI.Lobby
         {
             GameObject serverConnection = GameObject.Find("ServerConnection");
             Login.Login login = serverConnection.GetComponent<Login.Login>();
-            
+
             login.StartCoroutine(ServerConnection.SendJsonString("http://localhost:9001/user/create", _json, null));
-            yield return new WaitForSeconds(2);
-            
+            yield return new WaitUntil(() => SessionManager.GetUserId() != null);
+
             login.username.text = "marcel";
             login.password.text = "pwd";
             login.SendRequest();
             yield return new WaitForSeconds(2);
-            
+
             Assert.IsNotNull(SessionManager.GetToken());
         }
     }
