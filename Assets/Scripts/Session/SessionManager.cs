@@ -20,6 +20,11 @@ namespace Session
         /// </summary>
         internal static string userId;
 
+        /// <summary>
+        /// The game id of the current game;
+        /// </summary>
+        internal static string gameId;
+
 
         public static AuthToken GetToken()
         {
@@ -29,6 +34,11 @@ namespace Session
         public static string GetUserId()
         {
             return userId;
+        }
+
+        public static string GetGameId()
+        {
+            return gameId;
         }
     }
 }
