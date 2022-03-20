@@ -15,7 +15,7 @@ namespace Tests.Session
             AuthToken token = AuthToken.FromString(result);
             Assert.AreEqual(expectedToken, token);
         }
-        
+
         [Test]
         public void TestFromStringMissingType()
         {
@@ -23,7 +23,7 @@ namespace Tests.Session
 
             Assert.Throws<KeyNotFoundException>(() => AuthToken.FromString(result));
         }
-        
+
         [Test]
         public void TestFromStringMissingToken()
         {
@@ -55,12 +55,19 @@ namespace Tests.Session
             AuthToken otherToken = new AuthToken("abcd", "Bear");
             Assert.AreNotEqual(authToken, otherToken);
         }
-        
+
         [Test]
         public void TestNullEqual()
         {
             AuthToken authToken = new AuthToken("abcd", "Bearer");
             Assert.AreNotEqual(authToken, null);
+        }
+
+        [Test]
+        public void TestToString()
+        {
+            AuthToken authToken = new AuthToken("abcd", "Bearer");
+            Assert.AreEqual("Bearer abcd", authToken.ToString());
         }
     }
 }
