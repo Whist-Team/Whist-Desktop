@@ -1,0 +1,90 @@
+using System;
+using System.Collections;
+using System.Text;
+using Session;
+using UnityEngine;
+using UnityEngine.Networking;
+
+namespace Connections
+{
+    public static class ServerConnection
+    {
+        /// <summary>
+        /// Sends a form to the requests url. Logs the response.
+        /// </summary>
+        /// <param name="url">Requires full URL address where the request shall be sent.
+        /// The route must accept POST request.</param>
+        /// <typeparam name="url">string</typeparam>
+        /// <param name="form">The data inside a WWWForm.</param>
+        /// <typeparam name="form">WWWForm</typeparam>
+        /// <param name="callback">What should be done on a successful request.</param>
+        /// <typeparam name="callback">Action with parameter: UnityWebRequest.Result</typeparam>
+        /// <returns>Nothing. Further action shall be taken in the callback.</returns>
+        public static IEnumerator SendForm(string url, WWWForm form, Action<DownloadHandler> callback)
+        {
+            UnityWebRequest request = UnityWebRequest.Post(url, form);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                callback?.Invoke(request.downloadHandler);
+            }
+            else
+            {
+                Debug.LogWarning($"Request to {url} was unsuccessful, because of: {request.error}");
+            }
+        }
+
+        public static IEnumerator SendJsonString(string url, string json, Action<DownloadHandler> callback,
+            AuthToken token = null)
+        {
+            UnityWebRequest request = new UnityWebRequest(url, "POST");
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+            request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            if (token != null)
+            {
+                request.SetRequestHeader("Authorization", token.ToString());
+            }
+
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                callback?.Invoke(request.downloadHandler);
+            }
+            else
+            {
+                Debug.LogWarning($"Request to {url} was unsuccessful, because of: {request.error}");
+            }
+        }
+
+        /// <summary>
+        /// Retrieves data from a GET route.
+        /// </summary>
+        /// <param name="url">Requires full URL address where the request shall be sent.
+        /// The route must accept GET request.</param>
+        /// <param name="callback">What should be done on a successful request.</param>
+        /// <typeparam name="callback">Action with parameter: UnityWebRequest.Result</typeparam>
+        /// <param name="token">Optional authentication token of the current user.</param>
+        /// <typeparam name="token">AuthToken</typeparam>
+        /// <returns>Nothing. Further action shall be taken in the callback.</returns>
+        public static IEnumerator GetData(string url, Action<DownloadHandler> callback, AuthToken token = null)
+        {
+            UnityWebRequest request = UnityWebRequest.Get(url);
+            if (token != null)
+            {
+                request.SetRequestHeader("Authorization", token.ToString());
+            }
+
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                callback?.Invoke(request.downloadHandler);
+            }
+            else
+            {
+                Debug.LogWarning($"Request to {url} was unsuccessful, because of: {request.error}");
+            }
+        }
+    }
+}
