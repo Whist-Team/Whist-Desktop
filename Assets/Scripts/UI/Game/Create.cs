@@ -15,8 +15,8 @@ namespace UI.Game.Create
 
 
         /// <summary>
-        /// Sends the user registration request to the whist server. It will store the user id in the SessionManager
-        /// upon successful registration.
+        /// Sends the game creation request to the whist server. It will store the game id in the SessionManager
+        /// upon successful creation.
         /// </summary>
         public void SendRequest()
         {
