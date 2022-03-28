@@ -57,5 +57,34 @@ namespace Connections
                 Debug.LogWarning($"Request to {url} was unsuccessful, because of: {request.error}");
             }
         }
+
+        /// <summary>
+        /// Retrieves data from a GET route.
+        /// </summary>
+        /// <param name="url">Requires full URL address where the request shall be sent.
+        /// The route must accept GET request.</param>
+        /// <param name="callback">What should be done on a successful request.</param>
+        /// <typeparam name="callback">Action with parameter: UnityWebRequest.Result</typeparam>
+        /// <param name="token">Optional authentication token of the current user.</param>
+        /// <typeparam name="token">AuthToken</typeparam>
+        /// <returns>Nothing. Further action shall be taken in the callback.</returns>
+        public static IEnumerator GetData(string url, Action<DownloadHandler> callback, AuthToken token = null)
+        {
+            UnityWebRequest request = UnityWebRequest.Get(url);
+            if (token != null)
+            {
+                request.SetRequestHeader("Authorization", token.ToString());
+            }
+
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                callback?.Invoke(request.downloadHandler);
+            }
+            else
+            {
+                Debug.LogWarning($"Request to {url} was unsuccessful, because of: {request.error}");
+            }
+        }
     }
 }
