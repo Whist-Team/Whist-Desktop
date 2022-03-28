@@ -19,6 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
+        python-version: [ '3.10' ]
+        mongodb-version: [ 4.4 ]
     runs-on: ${{ matrix.os }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -33,6 +35,31 @@ jobs:
           restore-keys: |
             Library-Whist-Desktop-
             Library-
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: pip
+          restore-keys: |
+            pip
+      - name: Install Whist-Server
+        run: pip install whist-server setuptools wheel
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+      - name: Start Whist-Server
+        run: |
+          whist-server &
+          while ! nc -z localhost 9001; do   
+            sleep 0.1 # wait for 1/10 of the second before check again
+          done
+        env:
+          HOST_ADDR: localhost
+          HOST_PORT: 9001
       - name: Unity - Test
         uses: game-ci/unity-test-runner@v2
         env:
