@@ -623,6 +623,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameLobbyConnection
       objectReference: {fileID: 0}
+    - target: {fileID: 2354081570767495284, guid: 1d4d8636fb2c893809d703fe33d3b4ef, type: 3}
+      propertyPath: gameName
+      value: 
+      objectReference: {fileID: 213037715}
+    - target: {fileID: 2354081570767495284, guid: 1d4d8636fb2c893809d703fe33d3b4ef, type: 3}
+      propertyPath: password
+      value: 
+      objectReference: {fileID: 2120893118}
     - target: {fileID: 3691393596981320965, guid: 1d4d8636fb2c893809d703fe33d3b4ef, type: 3}
       propertyPath: gameName
       value: 
