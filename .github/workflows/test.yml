@@ -71,11 +71,11 @@ jobs:
           testMode: playmode
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
       - name: DEBUG ls
-        run: "ls"
+        run: "ls artifacts"
       - name: Upload XML report to Codecov
         uses: codecov/codecov-action@v2
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage-results/**/*.xml 
+          files: artifacts/coverage-results/**/*.xml 
           
