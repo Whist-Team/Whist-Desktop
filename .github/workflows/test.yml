@@ -70,6 +70,8 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           testMode: playmode
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
+      - name: DEBUG ls
+        run: "ls"
       - name: Upload XML report to Codecov
         uses: codecov/codecov-action@v2
         with:
